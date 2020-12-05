@@ -8,10 +8,6 @@ namespace ATMLabGoodson
     {
         private string _name;
         private string _password;
-        public string userAccount { get; set; }
-
-        public string userName { get; set; }
-        public string password { get; set; }
         public double Balance { get; set; }
 
         public Account(string name, string password)
@@ -20,16 +16,27 @@ namespace ATMLabGoodson
             _password = password;
         }
 
-        public Account GetAccount(string name, string password, List<Account> allAccounts)
+        public Account()
         {
+         
+        }
+
+        public int GetAccount(string name, string password, List<Account> allAccounts)
+        {
+            int counter = 0; 
+
             foreach (Account item in allAccounts)
             {
                 if (name == _name && password == _password)
                 {
-                    return item;
+                    return counter;
                 }
+
+                counter += 1;
+                
             }
-            return null;
+
+            return counter; //may cause an out of bounds exception at some point
         }
     }
 }

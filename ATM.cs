@@ -7,7 +7,9 @@ namespace ATMLabGoodson
     class ATM
     {
         public static List<Account> allAccounts = new List<Account>();
-       
+        public static Account inUse = null;
+        public static int inUseIndex;
+        public static Account tempAccount = new Account();
         public static void RegisterOrLogin()
         {
             Console.BackgroundColor = ConsoleColor.Gray;
@@ -54,8 +56,8 @@ namespace ATMLabGoodson
             string password = ReadLogin();
 
             //TEST READ LOG IN 
-            Console.WriteLine(userName);
-            Console.WriteLine(password);
+            //Console.WriteLine(userName);
+            //Console.WriteLine(password);
 
             Account account = new Account(userName, password);
             allAccounts.Add(account);
@@ -81,32 +83,60 @@ namespace ATMLabGoodson
             do
             {
                 Console.WriteLine("Please enter your username: ");
-                string userName = Console.ReadLine();
+                string userName = ReadLogin();
                 Console.WriteLine("Please enter your password: ");
-                string password = Console.ReadLine();
+                string password = ReadLogin();
 
-                Account tempAccount = new Account(userName, password); //only making new instance for getAccount method
-                Account checkAccount = tempAccount.GetAccount(userName, password, allAccounts);
 
-                if (checkAccount != null) //we will call below methods (check balance, deposit, withdraw) here...
+                tempAccount = new Account(userName, password); //only making new instance for getAccount method
+
+                //check if user logged in...
+                if (inUse != null)
                 {
-                    AccountAction(checkAccount);
-                    loggedIn = true;
-                    break;
+                    Console.WriteLine("A user is already logged in. Please log out to access your account");
+                    ShowMenu();
                 }
-                else if (checkAccount == null)
+                else
                 {
-                    loop = NoAccount();
-                }
-                else//check if user already logged
-                {
-                    if (loggedIn == true)
+                   
+
+                    try
                     {
-                        Console.WriteLine("A user is already logged in. Please log out to access your account");
-                        ShowMenu();
+                        inUseIndex = tempAccount.GetAccount(userName, password, allAccounts);
+                        inUse = allAccounts[inUseIndex];
+                        AccountAction(inUse);
+                        loggedIn = true;
                         break;
+
+                    }
+                    catch (ArgumentOutOfRangeException ex)
+                    {
+                        Console.WriteLine("It looks like you don't have an account with us yet");
+                        loop = NoAccount();
+                        continue;
                     }
                 }
+              
+
+                //if (inUse != null) //we will call below methods (check balance, deposit, withdraw) here...
+                //{
+                //    AccountAction(inUse, userName);
+                //    loggedIn = true;
+                //    break;
+                //}
+                //else if (inUse == null)
+                //{
+
+                //}
+                //else//check if user already logged
+                //{
+                //    if (loggedIn == true)
+                //    {
+                //        Console.WriteLine("A user is already logged in. Please log out to access your account");
+                //        ShowMenu(userName);
+                //        break;
+                //    }
+                //}
 
             } while (loop);
 
@@ -116,6 +146,9 @@ namespace ATMLabGoodson
         public static bool Logout() //after log out, ask user if they want to register new acct or log in
         {
             bool loggedIn = false;
+            inUse = null;
+            tempAccount = null;
+            
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
             Console.Clear();
@@ -124,12 +157,12 @@ namespace ATMLabGoodson
             return loggedIn;
         }
 
-        public static void CheckBalance(Account account)
+        public static void CheckBalance()
         {
-            Console.WriteLine($"Your balance is ${account.Balance}");
+            Console.WriteLine($"Your balance is ${inUse.Balance}");
         }
 
-        public static void Deposit(Account account)
+        public static void Deposit()
         {
             Console.WriteLine("How much would you like to deposit?");
 
@@ -140,8 +173,8 @@ namespace ATMLabGoodson
 
                 if (checkDub)
                 {
-                    account.Balance += addToBal;
-                    Console.WriteLine($"Your new balance is ${account.Balance}");
+                    inUse.Balance += addToBal;
+                    Console.WriteLine($"Your new balance is ${inUse.Balance}");
                     break;
                 }
                 else
@@ -152,7 +185,7 @@ namespace ATMLabGoodson
             } while (true); 
         }
 
-        public static void Withdraw(Account account)
+        public static void Withdraw()
         {
             Console.WriteLine("How much would you like to withdraw?");
             do
@@ -162,14 +195,14 @@ namespace ATMLabGoodson
 
                 if (checkDub)
                 {
-                    if (subBal <= account.Balance)
+                    if (subBal <= inUse.Balance)
                     {
-                        account.Balance -= subBal;
-                        Console.WriteLine($"Your new balance is ${account.Balance}");
+                        allAccounts[inUseIndex].Balance -= subBal;
+                        Console.WriteLine($"Your new balance is ${inUse.Balance}");
                     }
                     else
                     {
-                        Console.WriteLine($"You only have ${account.Balance} in your account. You cannot withdraw ${subBal}");
+                        Console.WriteLine($"You only have ${inUse.Balance} in your account. You cannot withdraw ${subBal}");
                     }
                     break;
                 }
@@ -184,7 +217,7 @@ namespace ATMLabGoodson
 
         public static bool NoAccount()
         {
-            Console.WriteLine("That account does not exist. Please re-enter your information (E) or register (R): ");
+            Console.WriteLine("\nPlease re-enter your information (E) or register (R): ");
             string choice = Console.ReadLine();
 
             if (choice.Equals("E", StringComparison.OrdinalIgnoreCase))
@@ -216,7 +249,7 @@ namespace ATMLabGoodson
 
             do
             {
-                Console.WriteLine("\nSelect an action by number from the menu below: ");
+                Console.WriteLine($"Please select an action by number from the menu below: ");
                 Console.WriteLine();
                 foreach (var keyValuePair in atmMenu)
                 {
@@ -244,17 +277,17 @@ namespace ATMLabGoodson
         {
             if(menuChoice == 0)
             {
-                CheckBalance(account);
+                CheckBalance();
                 return true;
 
             } else if (menuChoice == 1)
             {
-                Deposit(account);
+                Deposit();
                 return true;
 
             } else if (menuChoice == 2)
             {
-                Withdraw(account);
+                Withdraw();
                 return true;
             }
             else
