@@ -1,0 +1,14 @@
+C:\Users\goods\source\repos\ATMLabGoodson\bin\Debug\netcoreapp3.1\ATMLabGoodson.exe
+C:\Users\goods\source\repos\ATMLabGoodson\bin\Debug\netcoreapp3.1\registeredaccounts.txt
+C:\Users\goods\source\repos\ATMLabGoodson\bin\Debug\netcoreapp3.1\ATMLabGoodson.deps.json
+C:\Users\goods\source\repos\ATMLabGoodson\bin\Debug\netcoreapp3.1\ATMLabGoodson.runtimeconfig.json
+C:\Users\goods\source\repos\ATMLabGoodson\bin\Debug\netcoreapp3.1\ATMLabGoodson.runtimeconfig.dev.json
+C:\Users\goods\source\repos\ATMLabGoodson\bin\Debug\netcoreapp3.1\ATMLabGoodson.dll
+C:\Users\goods\source\repos\ATMLabGoodson\bin\Debug\netcoreapp3.1\ATMLabGoodson.pdb
+C:\Users\goods\source\repos\ATMLabGoodson\obj\Debug\netcoreapp3.1\ATMLabGoodson.csprojAssemblyReference.cache
+C:\Users\goods\source\repos\ATMLabGoodson\obj\Debug\netcoreapp3.1\ATMLabGoodson.AssemblyInfoInputs.cache
+C:\Users\goods\source\repos\ATMLabGoodson\obj\Debug\netcoreapp3.1\ATMLabGoodson.AssemblyInfo.cs
+C:\Users\goods\source\repos\ATMLabGoodson\obj\Debug\netcoreapp3.1\ATMLabGoodson.csproj.CoreCompileInputs.cache
+C:\Users\goods\source\repos\ATMLabGoodson\obj\Debug\netcoreapp3.1\ATMLabGoodson.dll
+C:\Users\goods\source\repos\ATMLabGoodson\obj\Debug\netcoreapp3.1\ATMLabGoodson.pdb
+C:\Users\goods\source\repos\ATMLabGoodson\obj\Debug\netcoreapp3.1\ATMLabGoodson.genruntimeconfig.cache
