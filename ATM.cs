@@ -6,8 +6,8 @@ namespace ATMLabGoodson
 {
     class ATM
     {
-        public List<Account> registered { get; set; }
-        //private bool _loggedIn;
+        public static List<Account> allAccounts = new List<Account>();
+       
         public static void RegisterOrLogin()
         {
             Console.BackgroundColor = ConsoleColor.Gray;
@@ -23,13 +23,13 @@ namespace ATMLabGoodson
 
                 if (userChoice.Equals("L", StringComparison.OrdinalIgnoreCase))
                 {
-                    LogIn(RegisteredAccounts.ReadFrom("registeredaccounts.txt"));
-                    break;
+                    LogIn();
+                    
                 }
                 else if (userChoice.Equals("N", StringComparison.OrdinalIgnoreCase))
                 {
                     Register();
-                    break;
+                    
                 }
                 else
                 {
@@ -42,7 +42,6 @@ namespace ATMLabGoodson
             
             public static void Register()
             {
-            List<Account> users = new List<Account>();
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("\nACCOUNT REGISTRATION");
@@ -55,20 +54,21 @@ namespace ATMLabGoodson
             string password = ReadLogin();
 
             //TEST READ LOG IN 
-            //Console.WriteLine(userName);
-            //Console.WriteLine(password);
+            Console.WriteLine(userName);
+            Console.WriteLine(password);
 
             Account account = new Account(userName, password);
+            allAccounts.Add(account);
 
             Console.WriteLine("\nYour account has been registered!");
             Console.WriteLine("Please log in with your new user information");
             Console.WriteLine();
 
-            LogIn(RegisteredAccounts.WriteTo(userName, password));
+            LogIn();
 
             }
 
-        public static void LogIn(List<Account> registeredAccounts)
+        public static void LogIn()
         {
             bool loggedIn = false;
             bool loop = true;
@@ -85,26 +85,29 @@ namespace ATMLabGoodson
                 Console.WriteLine("Please enter your password: ");
                 string password = Console.ReadLine();
 
-                Account account = new Account(userName, password);
+                Account tempAccount = new Account(userName, password); //only making new instance for getAccount method
+                Account checkAccount = tempAccount.GetAccount(userName, password, allAccounts);
 
-                if (registeredAccounts.Contains(account)) //we will call below methods (check balance, deposit, withdraw) here...
+                if (checkAccount != null) //we will call below methods (check balance, deposit, withdraw) here...
                 {
-                    AccountAction(account);
+                    AccountAction(checkAccount);
                     loggedIn = true;
+                    break;
                 }
-                else if (!registeredAccounts.Contains(account)) 
+                else if (checkAccount == null)
                 {
                     loop = NoAccount();
                 }
                 else//check if user already logged
                 {
-                    if(loggedIn == true)
+                    if (loggedIn == true)
                     {
                         Console.WriteLine("A user is already logged in. Please log out to access your account");
                         ShowMenu();
                         break;
                     }
                 }
+
             } while (loop);
 
         }
@@ -190,7 +193,7 @@ namespace ATMLabGoodson
             }
             else if (choice.Equals("R", StringComparison.OrdinalIgnoreCase))
             {
-                ATM.Register();
+                Register();
                 return false;
             }
             else
@@ -306,6 +309,8 @@ namespace ATMLabGoodson
             Console.WriteLine();
             return password;
         }
- 
+
+
+
     }
 }

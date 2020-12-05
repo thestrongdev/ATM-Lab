@@ -1,5 +1,4 @@
 C:\Users\goods\source\repos\ATMLabGoodson\bin\Debug\netcoreapp3.1\ATMLabGoodson.exe
-C:\Users\goods\source\repos\ATMLabGoodson\bin\Debug\netcoreapp3.1\registeredaccounts.txt
 C:\Users\goods\source\repos\ATMLabGoodson\bin\Debug\netcoreapp3.1\ATMLabGoodson.deps.json
 C:\Users\goods\source\repos\ATMLabGoodson\bin\Debug\netcoreapp3.1\ATMLabGoodson.runtimeconfig.json
 C:\Users\goods\source\repos\ATMLabGoodson\bin\Debug\netcoreapp3.1\ATMLabGoodson.runtimeconfig.dev.json
